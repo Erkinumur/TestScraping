@@ -9,15 +9,22 @@ from TestScraping.models import ReviewData
 url = 'https://www.tripadvisor.com/Restaurant_Review-g295424-d10336417-' \
       'Reviews-Couqley_French_Bistro_Dubai-Dubai_Emirate_of_Dubai.html'
 base_url = 'https://www.tripadvisor.com'
+profile_url = base_url + '/Profile/'
 
 ua = UserAgent()
-headers = {'User-agent': ua.chrome}
+headers = {
+    'authority': 'www.google.com',
+    'accept-language': 'ru,en;q=0.9',
+    'cache-control': 'no-cache',
+    'pragma': 'no-cache',
+    'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 '
+                  '(KHTML, like Gecko)   Chrome/102.0.0.0 Safari/537.36'}
 proxies = {
     'http': '5.189.151.227:24031',
     'https': '5.189.151.227:24031'
 }
 
-response = requests.get(url, headers=headers)
+response = requests.get(url, headers=headers, timeout=10)
 selector = Selector(response.text)
 
 
@@ -29,7 +36,7 @@ def parse_reviews(selector):
     for div in review_containers:
         author_img = div.xpath('.//div[contains(@class, "ui_avatar")]/img/@data-lazyurl').get()
         author_name = div.xpath('.//div[contains(@class, "info_text")]/div/text()').get()
-        author_url = base_url + div.xpath(f'//h3[text()="{author_name}"]/../@href').get()
+        author_url = profile_url + author_name
 
         raiting = div.xpath('.//span[contains(@class, "ui_bubble_rating")]/@class')
         raiting = int(raiting.get()[-2])
