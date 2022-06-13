@@ -1,6 +1,10 @@
+import json
+
 import requests
 from fake_useragent import UserAgent
 from parsel import Selector
+
+from TestScraping.models import ReviewData
 
 base_url = 'https://foursquare.com'
 url = 'https://ru.foursquare.com/v/friendlys/4b632609f964a5207a662ae3'
@@ -39,12 +43,21 @@ def parse_reviews(selector):
         if div_texts:
             review_text += div_texts.pop(0).get()
 
-        reviews.append({
-            'author_name': author_name,
-            'author_url': author_url,
-            'author_image': author_image,
-            'review_date': review_date,
-            'review_text': review_text
-            })
+        reviews.append(ReviewData(
+            author_name=author_name,
+            author_url=author_url,
+            author_photo_url=author_image,
+            created_at=review_date,
+            text=review_text
+        ))
 
     return reviews
+
+
+if __name__ == '__main__':
+    reviews = parse_reviews(selector)
+
+    with open('foursquare.json', 'w', encoding='utf-8') as f:
+        f.write(json.dumps([i.__dict__ for i in reviews], ensure_ascii=False))
+
+    print(len(reviews))

@@ -6,6 +6,3 @@ ua = UserAgent()
 headers = {'User-agent': ua.chrome}
 response = requests.get(url, headers=headers)
 selector = Selector(response.text)
-
-def get_next_page(selector):
-

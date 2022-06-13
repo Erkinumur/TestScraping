@@ -1,9 +1,14 @@
 import json
 import math
+from pprint import pprint
 
 import requests
 from fake_useragent import UserAgent
 from parsel import Selector
+
+from TestScraping.models import ReviewData
+
+base_url = 'https://www.yelp.com'
 
 
 def parse_reviews(selector):
@@ -38,7 +43,25 @@ def get_review_api(company_endpoint):
             reviews.extend(response.json().get('reviews'))
             start += results_per_page
 
-    return reviews
+    result = []
+    for i in reviews:
+        result.append(get_review_model_from_json(i))
+
+    return result
+
+def get_review_model_from_json(data):
+    owner_data = data.get('user')
+
+    review = ReviewData(
+        author_name=owner_data.get('markupDisplayName'),
+        author_url=base_url + owner_data.get('link'),
+        author_photo_url=owner_data.get('src'),
+        created_at=data.get('localizedDate'),
+        raiting=data.get('rating'),
+        text=data.get('comment').get('text')
+    )
+
+    return review
 
 
 
@@ -54,7 +77,7 @@ if __name__ == '__main__':
 
     reviews = get_review_api('ace-florist-syosset-4')
 
-    for i in reviews:
-        print(i)
+    with open('yelp.json', 'w', encoding='utf-8') as f:
+        f.write(json.dumps([i.__dict__ for i in reviews], ensure_ascii=False))
 
     print(len(reviews))
