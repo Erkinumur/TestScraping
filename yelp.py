@@ -6,7 +6,8 @@ import requests
 from fake_useragent import UserAgent
 from parsel import Selector
 
-from TestScraping.models import ReviewData
+from google_reviews import proxies, headers
+from models import ReviewData
 
 base_url = 'https://www.yelp.com'
 
@@ -19,6 +20,7 @@ def parse_reviews(selector):
 
     return data.get('review')
 
+
 def get_review_api(company_endpoint):
     url = f'https://www.yelp.com/biz/{company_endpoint}/review_feed'
     params = {
@@ -27,7 +29,9 @@ def get_review_api(company_endpoint):
         'start': 0
     }
 
-    response = requests.get(url, params=params)
+    response = requests.get(url, params=params, proxies=proxies, headers=headers)
+    print(response.status_code)
+    # print(response.text)
     data = response.json()
     reviews = data.get('reviews')
 

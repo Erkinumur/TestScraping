@@ -5,7 +5,7 @@ import requests
 from fake_useragent import UserAgent
 from parsel import Selector
 
-from TestScraping.models import ReviewData
+from models import ReviewData
 
 url = 'https://www.google.com/search?q=ace+florist+in+syosset+ny+11791'
 review_sort_url = 'https://www.google.com/async/reviewSort'
@@ -29,7 +29,7 @@ proxies = {
 }
 params = {'async': 'feature_id:0x89c28248873aae9f%3A0x9062074cae10c10f,review_source:All%20reviews,sort_by:qualityScore,is_owner:false,filter_text:,associated_topic:,async_id_prefix:,_pms:s,_fmt:pc'}
 
-response = requests.get(url, headers=headers)
+response = requests.get(url, headers=headers, proxies=proxies, timeout=10)
 selector = Selector(response.text)
 
 
@@ -77,12 +77,15 @@ def parse_reviews(selector):
         raiting = [i for i in raiting if '.' in i][0]
         raiting = float(raiting)
 
+        created_at = container.xpath('.//g-review-stars/../span/text()').get()
+
         reviews.append(ReviewData(
             author_name=author_name,
             author_photo_url=author_photo_url,
             text=text,
             author_url=author_url,
-            raiting=raiting
+            raiting=raiting,
+            created_at=created_at
         ))
 
     return reviews

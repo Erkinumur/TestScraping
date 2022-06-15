@@ -4,14 +4,18 @@ import requests
 from fake_useragent import UserAgent
 from parsel import Selector
 
-from TestScraping.models import ReviewData
+from models import ReviewData
 
 base_url = 'https://foursquare.com'
 url = 'https://ru.foursquare.com/v/friendlys/4b632609f964a5207a662ae3'
 
 ua = UserAgent()
 headers = {'User-agent': ua.chrome}
-response = requests.get(url, headers=headers)
+proxies = {
+    'http': '5.189.151.227:24031',
+    'https': '5.189.151.227:24031'
+}
+response = requests.get(url, headers=headers, proxies=proxies,)
 selector = Selector(response.text)
 
 

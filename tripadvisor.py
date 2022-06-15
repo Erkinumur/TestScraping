@@ -4,7 +4,7 @@ import requests
 from fake_useragent import UserAgent
 from parsel import Selector
 
-from TestScraping.models import ReviewData
+from models import ReviewData
 
 url = 'https://www.tripadvisor.com/Restaurant_Review-g295424-d10336417-' \
       'Reviews-Couqley_French_Bistro_Dubai-Dubai_Emirate_of_Dubai.html'
@@ -24,7 +24,7 @@ proxies = {
     'https': '5.189.151.227:24031'
 }
 
-response = requests.get(url, headers=headers, timeout=10)
+response = requests.get(url, headers=headers, proxies=proxies, timeout=10)
 selector = Selector(response.text)
 
 
