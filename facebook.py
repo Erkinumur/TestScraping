@@ -1,4 +1,5 @@
 import json
+from pprint import pprint
 
 import requests
 from parsel import Selector
@@ -6,8 +7,8 @@ from parsel import Selector
 from google_reviews import proxies
 from models import ReviewData
 
-url = "https://www.facebook.com/Ace-Florist-405310066217577/reviews/"
-# url = 'https://www.facebook.com/CouqleyUAE/reviews/'
+# url = "https://www.facebook.com/Ace-Florist-405310066217577/reviews/"
+url = 'https://www.facebook.com/CouqleyUAE/reviews/'
 graphql_url = 'https://www.facebook.com/api/graphql/'
 
 graphql_params = {'doc_id': 7751838121557253}
@@ -72,28 +73,57 @@ def get_reviews_from_graphql(data: dict):
     data = data.copy()
     page_info = data['__bbox']['result']['data']['page']['reviews_recommendations_feed'][
         'page_info']
+    id = data['__bbox']['result']['data']['page']['id']
+
+    count = 1
     reviews = []
 
     while page_info['has_next_page']:
         print(page_info['has_next_page'])
         cursor = page_info['end_cursor']
-        id = data['__bbox']['result']['data']['page']['id']
+
         variables_ = variables.copy()
         variables_.update({'cursor': cursor, 'id': id})
 
         payload = {"doc_id": doc_id, "variables": json.dumps(variables_)}
-        res = requests.post(graphql_url, headers=headers, proxies=proxies, data=payload, timeout=10)
-        data = res.json()
+
+        attempts = 1
+
+        while True:
+            try:
+                res = requests.post(
+                    graphql_url, headers=headers, proxies=proxies, data=payload, timeout=10
+                )
+                data = res.json()
+                print(count)
+                print(data.keys())
+                reviews_data = data['data']['node']['reviews_recommendations_feed']['edges']
+                reviews_data = [i['node'] for i in reviews_data]
+            except Exception as e:
+                print(f'Exception: {e}')
+                if attempts > 5:
+                    break
+                attempts += 1
+                continue
+            else:
+                if attempts > 5:
+                    break
+                if None in reviews_data:
+                    print('No reviews')
+                    pprint(payload)
+                    attempts += 1
+                    continue
+                else:
+                    break
+        if attempts > 5:
+            break
 
         page_info = data['data']['node']['reviews_recommendations_feed']['page_info']
 
-        reviews_data = data['data']['node']['reviews_recommendations_feed']['edges']
-        reviews_data = [i['node'] for i in reviews_data]
-
         for review in reviews_data:
-            text = \
-            review['comet_sections']['content']['story']['comet_sections']['message']['story'][
-                'message']['text']
+            text = review['comet_sections']['content']['story']['comet_sections']['message']
+            if text:
+                text = text['story']['message']['text']
 
             author_data = review['comet_sections']['context_layout']['story']['comet_sections'][
                 'actor_photo']['story']['actors'][0]
@@ -112,6 +142,8 @@ def get_reviews_from_graphql(data: dict):
                 author_url=author_url,
                 created_at=created_at
             ))
+
+        count += 1
 
     return reviews
 
