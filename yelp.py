@@ -68,6 +68,10 @@ def get_review_model_from_json(data):
     return review
 
 
+def parse_photo_url(selector):
+    images = selector.xpath('//div[@data-photo-id]/img/@src')
+    next_page = selector.xpath('//span[text()="Next"]/../@href')
+
 
 if __name__ == '__main__':
     # url = 'https://www.yelp.com/biz/ace-florist-syosset-4'

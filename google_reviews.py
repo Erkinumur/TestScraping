@@ -52,6 +52,25 @@ def get_next_page(selector):
     return Selector(res.text)
 
 
+def parse_company_info(selector):
+    address = selector.xpath('//div[@data-attrid="kc:/location/location:address"]//span/text()')[-1]
+    address = address.get()
+
+    hours = selector.xpath('//div[@data-attrid="kc:/location/location:hours"]//tr')
+    hpurs = hours[0].xpath('td/text()')[-1].get()
+
+    phone = selector.xpath('//div[contains(@data-attrid, "has_phone")]//span[@aria-label]/text('
+                           ')').get()
+
+    total_raiting = selector.xpath('//div[contains(@data-attrid, "star_score")]//span['
+                                   '@aria-hidden]/text()').get()
+
+    img_url = selector.xpath(
+        '//div[@id="media_result_group"]//a[contains(@href, "maps")]/@href').get()
+    img_url = 'https://google.com' + img_url
+
+
+
 def parse_reviews(selector):
     divs = selector.xpath('//div[@data-next-page-token]/div')
     reviews = []
