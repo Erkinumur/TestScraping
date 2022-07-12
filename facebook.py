@@ -7,8 +7,8 @@ from parsel import Selector
 from google_reviews import proxies
 from models import ReviewData
 
-# url = "https://www.facebook.com/Ace-Florist-405310066217577/reviews/"
-url = 'https://www.facebook.com/CouqleyUAE/reviews/'
+url = "https://www.facebook.com/Ace-Florist-405310066217577/reviews/"
+# url = 'https://www.facebook.com/CouqleyUAE/reviews/'
 graphql_url = 'https://www.facebook.com/api/graphql/'
 
 graphql_params = {'doc_id': 7751838121557253}
@@ -24,7 +24,7 @@ variables = {"count": 5, "feedLocation": "PAGE_TIMELINE", "feedbackSource": 0,
              "scale": 1, "sort_order": "MOST_HELPFUL"}
 doc_id = 7751838121557253
 
-response = requests.get(url, headers=headers, proxies=proxies, timeout=10)
+response = requests.get(url, headers=headers, timeout=10)
 selector = Selector(response.text)
 
 
@@ -92,7 +92,7 @@ def get_reviews_from_graphql(data: dict):
         while True:
             try:
                 res = requests.post(
-                    graphql_url, headers=headers, proxies=proxies, data=payload, timeout=10
+                    graphql_url, headers=headers, data=payload, timeout=10
                 )
                 data = res.json()
                 print(count)

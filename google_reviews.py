@@ -14,8 +14,6 @@ ua = UserAgent()
 
 headers = {
     'authority': 'www.google.com',
-    # 'accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,' \
-    #            'image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9',
     'accept-language': 'ru,en;q=0.9',
     'cache-control': 'no-cache',
     'pragma': 'no-cache',
@@ -27,7 +25,10 @@ proxies = {
     'http': '5.189.151.227:24031',
     'https': '5.189.151.227:24031'
 }
-params = {'async': 'feature_id:0x89c28248873aae9f%3A0x9062074cae10c10f,review_source:All%20reviews,sort_by:qualityScore,is_owner:false,filter_text:,associated_topic:,async_id_prefix:,_pms:s,_fmt:pc'}
+params = {
+    'async': 'feature_id:0x89c28248873aae9f%3A0x9062074cae10c10f,'
+             'review_source:All%20reviews,sort_by:qualityScore,is_owner:false,'
+             'filter_text:,associated_topic:,async_id_prefix:,_pms:s,_fmt:pc'}
 
 response = requests.get(url, headers=headers, proxies=proxies, timeout=10)
 selector = Selector(response.text)
