@@ -65,7 +65,10 @@ def start_script():
         'https://www.facebook.com/mariosofsyosset/',
         'https://www.facebook.com/Cardinali-Bakery-of-Syosset-321095754583067/',
         'https://en-gb.facebook.com/Mrprestigeli/',
-        'https://www.facebook.com/Ace-Florist-Flower-Delivery-405310066217577/'
+        'https://www.facebook.com/Ace-Florist-Flower-Delivery-405310066217577/',
+        'https://www.facebook.com/pages/category/Lawyer---Law-Firm/Kaplan-Lawyers-PC'
+        '-669628723082545/',
+        'https://www.facebook.com/brianjlevyassociates/'
     ]
     for url in urls:
         task = {
