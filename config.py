@@ -39,7 +39,7 @@ PROXY_URL = 'http://lum-auth-token:8BjwW5d4etXa5SbuNzDnWxTFvbAguDzc@5.189.151.22
 # PROXY_URL_GOOGLE = "http://scraperapi:6441f5c7026253e39e10825e1640b59d@proxy-server.scraperapi" \
 #                    ".com:8001"
 PROXY_URL = 'http://dataox:01de0f-949248-65abc9-015bb8-d3e420@private.residential.proxyrack.net:10000'
-PROXY_URL_GOOGLE = "http://bogdannesterenko8843:1ff381@node-us-27.astroproxy.com:11195"
+PROXY_URL_GOOGLE = "http://bogdannesterenko8843:1ff381@node-us-37.astroproxy.com:11137"
 
 # PROXY_URL_FB = 'http://scraperapi:d63aa1fb0b952c8a4d8438d64782af3f@proxy-server.scraperapi.com:8001'
 PROXY_URL_FB = PROXY_URL

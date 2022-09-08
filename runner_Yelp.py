@@ -12,7 +12,9 @@ def start_script():
         'https://www.yelp.com/biz/panera-bread-syosset',
         'https://www.yelp.com/biz/marks-barber-shop-syosset',
         'https://www.yelp.com/biz/kaplan-lawyers-pc-syosset-4',
-        'https://www.yelp.com/biz/mr-prestige-syosset'
+        'https://www.yelp.com/biz/mr-prestige-syosset',
+
+        'https://www.yelp.com/biz/brian-j-levy-and-associates-the-bronx'
     ]
     for url in urls:
         task = {

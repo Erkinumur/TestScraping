@@ -1,13 +1,11 @@
 {
-  "error": "Traceback (most recent call last):\n  File \"/Users/adiletsaparbek/PycharmProjects/foursquare_review/core/message_preference/compression.py\", line 21, in decompress_message\n    decompress_body = self.decompress_message_body(compressed_body)\n  File \"/Users/adiletsaparbek/PycharmProjects/foursquare_review/core/message_preference/compression.py\", line 41, in decompress_message_body\n    compressed_data = base64.b64decode(compressed_body)\n  File \"/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.8/lib/python3.8/base64.py\", line 87, in b64decode\n    return binascii.a2b_base64(s)\nbinascii.Error: Incorrect padding\n\nDuring handling of the above exception, another exception occurred:\n\nTraceback (most recent call last):\n  File \"/Users/adiletsaparbek/PycharmProjects/foursquare_review/core/async_client/async_client.py\", line 96, in receive_message\n    await self.start_processing_massage(\n  File \"/Users/adiletsaparbek/PycharmProjects/foursquare_review/core/async_client/async_client.py\", line 230, in start_processing_massage\n    incoming_message = self.message_compressor.decompress_message(incoming_message)\n  File \"/Users/adiletsaparbek/PycharmProjects/foursquare_review/core/message_preference/compression.py\", line 24, in decompress_message\n    print(f'Can not decompress message {message}')\nBrokenPipeError: [Errno 32] Broken pipe\n",
-
-
-  "message_headers": {
-    "to": "AW.scrapers.AW_FS",
-    "from": "AW.publisher",
-    "session_id": "publisher",
-    "type": "TASK",
-    "rate_limit_tag": ""
-  },
-  "message_body": "{\"request\": {\"callback\": \"start\", \"url\": \"https://foursquare.com/v/sams-club-gas/4dd3f6d652b1f6bad412fbb7\"}}"
+  "count": 5,
+  "feedLocation": "PAGE_TIMELINE",
+  "feedbackSource": 0,
+  "privacySelectorRenderLocation": "COMET_STREAM",
+  "renderLocation": "permalink",
+  "scale": 1,
+  "sort_order": "MOST_HELPFUL",
+  "cursor": "{\"in_progresscursor_type\":\"open_graph_and_page_rec\",\"local_rec_pattern_cursor\":\"AQHRFsGgHNxtYf-hmRrvvB7qK_Uz4VGTKGcyXc_7wdDG6GpbAd7s6JTIjZLZVSfX5_lEhc9g0eIOPZ-QFpjzeQLU_Q\",\"rating_cursor\":\"\",\"offline_offset\":-1,\"og_post_cursor\":\"end_of_og_post_query\"}",
+  "id": "162383013780268"
 }
